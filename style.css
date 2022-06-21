@@ -1,3 +1,7 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+
+/* @import url(../card/style.css); */
+
 :root {
   --fiolet: #7e72f2;
   --hover: #6b5dec;
@@ -96,4 +100,47 @@ body {
 
 .cards-list {
   background-color: #6b5dec;
+}
+
+.pagination {
+  width: auto;
+  background: var(--white);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+}
+
+.page-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  left: 2147px;
+  top: 900px;
+  background: var(--grey);
+  list-style: none;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.page-link:hover,
+.active {
+  background: var(--fiolet);
+  color: var(--white);
+}
+
+.previous-page {
+  width: 90px;
+  order: -1;
+}
+
+.next-page {
+  margin: 15px;
+  order: 2;
 }

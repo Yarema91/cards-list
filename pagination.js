@@ -3,114 +3,112 @@ export default class Pagination {
     activePagesIndex = 0,
     totalPages = 0
   } = {}) {
-    this.defaultPageSize = 12;
+    // this.totalPages = 12;
     this.activePagesIndex = activePagesIndex;
     this.totalPages = totalPages;
 
     this.render();
-    this.addEventListener();
+    this.addEventListeners();
   }
 
   getTemplate() {
     return `
-    ${this.getPages()}
+    <nav class="pagination">
+      <a href="#" class="prev-page page-link" data-element="nav-prev" >
+        <i class="bi bi-chevron-left"></i></a>
+      </a>
+        ${this.getPages()}
+      <a href="#" class="next-page page-link" data-element="nav-next">
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </nav>
     `;
   }
-
   getPages() {
     return `
-    <nav
-    class="prev-page page "
-    data-element="nav-prev"
-    ><i class="bi bi-chevron-left"></i></>
-    </nav>
-
-
-      <ul
-          class="pagination"
-          data-element="pagination"
-          >
-        ${new Array(this.defaultPageSize).fill(1).map((item, index) => this.getPageTemplate(index)).join('')}
+      <ul 
+      class="pagination" 
+      data-element="pagination"
+      >
+        ${new Array(this.totalPages).fill(1).map((item, index) => {
+      return this.getPageTemplate(index);
+    }).join('')}
       </ul>
-
-     <nav
-      class="next-page page"
-      data-element="nav-next"
-      ><i class="bi bi-chevron-right"></i></nav>
     `;
   }
 
   getPageTemplate(pageIndex = 0) {
-
     const isActive = (pageIndex === this.activePagesIndex) ? 'active' : '';
     return `
-    <li>
+    <li class="page">
       <a
         href="#"
         data-element="page"
-        class="page ${isActive}"
+        class="page-link ${isActive}"
         data-page-index="${pageIndex}"
          >${pageIndex + 1}
-         </a>
+      </a>
     </li>
     `;
   }
 
+
   setPage(pageIndex = 0) {
+    if (pageIndex === this.activePageIndex) return;
+    if (pageIndex > this.totalPages - 1 || pageIndex < 0) return;
 
-    if (pageIndex === this.activePagesIndex) return;
-    if (pageIndex > this.defaultPageSize - 1 || pageIndex < 0) return;
+    this.dispatchEvent(pageIndex);
 
+    const activePage = this.element.querySelector('.page-link.active');
 
-    // this.dispatchSomeEvent()
-    const activePages = this.element.querySelector('.page.active');
-
-    if (activePages) {
-      activePages.classList.remove('active')
+    if (activePage) {
+      activePage.classList.remove('active');
     }
 
-    const nextActivePage = this.element.querySelector(`[data-page-index="${pageIndex}" ]`);
-
-    // console.error("nextActivePage", nextActivePage);
+    const nextActivePage = this.element.querySelector(`[data-page-index="${pageIndex}"]`);
 
     if (nextActivePage) {
-      nextActivePage.classList.add('active')
+      nextActivePage.classList.add('active');
     }
-    this.activePagesIndex = pageIndex;
+
+    this.activePageIndex = pageIndex;
   }
 
   nextPage() {
-    const nextPageIndex = this.activePagesIndex + 1;
+    const nextPageIndex = this.activePageIndex + 1;
+
     this.setPage(nextPageIndex);
   }
 
   prevPage() {
-    const prevPageIndex = this.activePagesIndex - 1;
+    const prevPageIndex = this.activePageIndex - 1;
+
     this.setPage(prevPageIndex);
   }
 
   render() {
     const wrapper = document.createElement('div');
+
     wrapper.innerHTML = this.getTemplate();
-    this.element = wrapper;
+
+    this.element = wrapper.firstElementChild;
   }
 
-  addEventListener() {
-    const prevPageButton = this.element.querySelector('[data-element="nav-prev"]');
-    const nextPageButton = this.element.querySelector('[data-element="nav-next"]');
+  addEventListeners() {
+    const prevPageBtn = this.element.querySelector('[data-element="nav-prev"]');
+    const nextPageBtn = this.element.querySelector('[data-element="nav-next"]');
     const pagesList = this.element.querySelector('[data-element="pagination"]');
 
-    prevPageButton.addEventListener('click', () => {
+    prevPageBtn.addEventListener('click', () => {
       this.prevPage();
     });
 
-    nextPageButton.addEventListener('click', () => {
+    nextPageBtn.addEventListener('click', () => {
       this.nextPage();
     });
 
     pagesList.addEventListener('click', event => {
-
-      const pageItem = event.target.closest('.page');
+      const pageItem = event.target.closest('.page-link');
 
       if (!pageItem) return;
 
@@ -118,7 +116,6 @@ export default class Pagination {
 
       this.setPage(parseInt(pageIndex, 10));
     });
-
   }
 
   dispatchEvent(pageIndex) {
@@ -127,7 +124,8 @@ export default class Pagination {
     });
 
     this.element.dispatchEvent(customEvent);
-
-
   }
+
 };
+
+
