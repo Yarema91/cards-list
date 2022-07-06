@@ -9,8 +9,8 @@ export default class CardsList {
 
   getTemplate() {
     return `
-      <div>
-        <div class="products-list" data-element="body">
+      <div class="col-12 col-m-9 col-l-10">
+        <div class="right-box row products-list" data-element="body">
           <!-- Cards list -->
         </div>
       </div>

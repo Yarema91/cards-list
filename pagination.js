@@ -13,7 +13,9 @@ export default class Pagination {
 
   getTemplate() {
     return `
-    <nav class="pagination">
+    <nav 
+    class="pagination"
+    >
       <a href="#" class="prev-page page-link" data-element="nav-prev" >
         <i class="bi bi-chevron-left"></i></a>
       </a>
@@ -40,7 +42,7 @@ export default class Pagination {
   getPageTemplate(pageIndex = 0) {
     const isActive = (pageIndex === this.activePagesIndex) ? 'active' : '';
     return `
-    <li class="page">
+    <li class="page-link">
       <a
         href="#"
         data-element="page"

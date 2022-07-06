@@ -33,14 +33,39 @@ export default class OnlineStorePage {
 
   getTemplate() {
     return `
-      <div>
-        <div data-element="cardsList">
-          <!-- Cards List component -->
-        </div>
-        <div data-element="pagination">
-          <!-- Pagination component -->
-        </div>
-      </div>
+    <div class="container">
+      <header class="header">
+        <div class="logo">Online Store</div>
+        <a href="#" class="basket-btn" data-element="basket">
+          <i class="bi bi-cart"></i>
+          Cart
+          <span class="counter-product"></span>
+        </a>
+
+      </header> 
+ 
+      <div class="main-page">
+        <div data-element="side-bar"> <!-- Site bar component --></div>
+      
+        <div class="row">
+          <div
+           class="search" 
+           data-element="search-box"
+           > 
+            <!-- Search -->
+          </div>
+          <div   
+            data-element="cardsList"
+            >
+            <!-- Cards List component -->
+          </div>
+          <div data-element="pagination">
+            <!-- Pagination component -->
+          </div>
+          </div>
+
+      <div/>
+    </div>
     `;
   }
 
