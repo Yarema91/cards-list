@@ -19,7 +19,9 @@ export default class Card {
         <span class="card-text">${this.state.title}</span>
         <p class="article">${this.state.category}</p>
       </div>
-        <button class="button button-text">Add To Cart</button>
+      <footer className="footer">
+      <button class="button button-text">Add To Cart</button>
+      </footer>
     </div>
     `;
   }

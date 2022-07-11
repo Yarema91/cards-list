@@ -96,6 +96,9 @@ export default class Pagination {
     this.element = wrapper.firstElementChild;
   }
 
+
+
+
   addEventListeners() {
     const prevPageBtn = this.element.querySelector('[data-element="nav-prev"]');
     const nextPageBtn = this.element.querySelector('[data-element="nav-next"]');
@@ -127,6 +130,26 @@ export default class Pagination {
 
     this.element.dispatchEvent(customEvent);
   }
+
+  // //search
+  // updatePageCount(totalElements, pageSize) {
+  //   const totalPages = Math.ceil(totalElements / pageSize);
+  //   this.activePageIndex = 0;
+  //   this.totalPages = totalPages;
+  //   if (totalPages <= 0) {
+  //     this.totalPages = 0
+  //   }
+
+  //   this.renderPagination();
+  // }
+
+  // renderPagination() {
+  //   const pagesList = this.element.querySelector('[data-element="pagination1"]');
+
+  //   pagesList.innerHTML = ''
+  //   pagesList.innerHTML = this.getPages();
+  //   this.addPageEventListener();
+  // }
 
 };
 

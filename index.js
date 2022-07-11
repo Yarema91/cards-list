@@ -1,5 +1,6 @@
 import CardsList from './cards-list.js';
 import Pagination from './pagination.js';
+import SearchBox from './searchBox.js';
 
 const BACKEND_URL = 'https://online-store.bootcamp.place/api/';
 
@@ -20,6 +21,9 @@ export default class OnlineStorePage {
     this.initEventListeners();
 
     this.update(1);
+
+
+    // this.updateByText();
   }
 
   async loadData(pageNumber) {
@@ -36,7 +40,10 @@ export default class OnlineStorePage {
     <div class="container">
       <header class="header">
         <div class="logo">Online Store</div>
-        <a href="#" class="basket-btn" data-element="basket">
+        <div data-element="search-box">
+            <!-- Search -->
+        </div>
+        <a href="#" class="basket-button" data-element="basket">
           <i class="bi bi-cart"></i>
           Cart
           <span class="counter-product"></span>
@@ -48,14 +55,9 @@ export default class OnlineStorePage {
         <div data-element="side-bar"> <!-- Site bar component --></div>
       
         <div class="row">
-          <div
-           class="search" 
-           data-element="search-box"
-           > 
-            <!-- Search -->
-          </div>
           <div   
             data-element="cardsList"
+            class="cards-list"
             >
             <!-- Cards List component -->
           </div>
@@ -63,7 +65,6 @@ export default class OnlineStorePage {
             <!-- Pagination component -->
           </div>
           </div>
-
       <div/>
     </div>
     `;
@@ -74,22 +75,28 @@ export default class OnlineStorePage {
     const totalElements = 100;
     const totalPages = Math.ceil(totalElements / this.pageSize);
 
-    const cardList = new CardsList(this.products);
+    const cardsList = new CardsList(this.products);
     const pagination = new Pagination({
       activePageIndex: 0,
       totalPages
     });
+    const searchBox = new SearchBox();
 
-    this.components.cardList = cardList;
+    this.components.cardList = cardsList;
     this.components.pagination = pagination;
+    this.components.searchBox = searchBox;
   }
 
   renderComponents() {
     const cardsContainer = this.element.querySelector('[data-element="cardsList"]');
     const paginationContainer = this.element.querySelector('[data-element="pagination"]');
+    const searchBoxContainer = this.element.querySelector('[data-element="search-box"]');
+
+
 
     cardsContainer.append(this.components.cardList.element);
     paginationContainer.append(this.components.pagination.element);
+    searchBoxContainer.append(this.components.searchBox.element);
   }
 
   render() {
@@ -106,6 +113,14 @@ export default class OnlineStorePage {
 
       this.update(pageIndex + 1);
     });
+
+    this.components.searchBox.element.addEventListener('search-change', event => {
+      const textSearch = event.detail;
+
+      this.updateByText(textSearch);
+
+
+    });
   }
 
   async update(pageNumber) {
@@ -113,4 +128,24 @@ export default class OnlineStorePage {
 
     this.components.cardList.update(data);
   }
+
+  // async updateByText(value) {
+  //   this.url.searchParams.set('q', value);
+  //   this.updateCards();
+  // }
+
+  // async updateCards() {
+  //   this.url.searchParams.delete('_page');
+
+  //   const response = await fetch(this.url);
+  //   const products = await response.json();
+
+  //   this.components.cardsList.update(products);
+  //   const totalElements = Number(response.headers.get('X-Total-Count'));
+  //   this.components.pagination.updatePageCount(totalElements, this.pageSize);
+  //   this.components.pagination.setPage(0);
+  // }
+
+
+
 }
